@@ -1,3 +1,4 @@
+
 package com.fromthecircus.db;
 
 import java.sql.Connection;
@@ -15,6 +16,10 @@ public class Database {
 
     private Database() {
 
+    }
+
+    public Connection getConnection(){
+        return conn;
     }
 
     public void connect() throws SQLException {

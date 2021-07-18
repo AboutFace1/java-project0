@@ -1,11 +1,17 @@
+
 package com.fromthecircus.db;
 
 public class User {
+
     private int m_id;
     private String m_name;
 
     public User(int id, String name){
         m_id = id;
+        m_name = name;
+    }
+
+    public User(String name){
         m_name = name;
     }
 
@@ -25,4 +31,11 @@ public class User {
         m_name = name;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + m_id +
+                ", name='" + m_name + '\'' +
+                '}';
+    }
 }

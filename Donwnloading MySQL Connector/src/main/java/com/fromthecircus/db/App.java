@@ -1,3 +1,4 @@
+
 package com.fromthecircus.db;
 
 import java.sql.SQLException;
@@ -13,6 +14,9 @@ public class App {
         db.connect();
 
         System.out.println("Connected");
+        UserDao userDao = new UserDaoImpl();
+
+        userDao.save(new User("Michael"));
 
         db.disconnect();
     }
