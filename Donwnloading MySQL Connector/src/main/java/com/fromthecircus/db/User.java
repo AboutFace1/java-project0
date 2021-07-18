@@ -11,6 +11,10 @@ public class User {
         m_name = name;
     }
 
+    public User(int id){
+        m_id = id;
+    }
+
     public User(String name){
         m_name = name;
     }
