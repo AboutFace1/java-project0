@@ -2,16 +2,20 @@
 package com.fromthecircus.db;
 
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * Hello world!
  */
 public class App {
     public static void main(String[] args) throws SQLException {
+
+        var props = Profile.getProperties("db");
+
         System.out.println("Hello World");
 
         var db = Database.getInstance();
-        db.connect();
+        db.connect(props);
 
         System.out.println("Connected");
         UserDao userDao = new UserDaoImpl();
