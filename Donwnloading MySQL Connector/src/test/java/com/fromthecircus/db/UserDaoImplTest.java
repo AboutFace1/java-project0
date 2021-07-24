@@ -118,6 +118,95 @@ public class UserDaoImplTest {
     }
 
     @Test
+    public void testDelete() throws SQLException {
+        UserDao userDao = new UserDaoImpl();
+
+        for(var u: users) {
+            userDao.save(u);
+        }
+
+
+        var maxId = getMaxId();
+
+        for (int i=0; i<users.size(); i++) {
+            int id = (maxId - users.size()) + i + 1;
+
+            users.get(i).setId(id);
+        }
+
+        var deleteUserIndex = NUM_TEST_USERS/2;
+        var deleteUser = users.get(deleteUserIndex);
+
+        users.remove(deleteUser);
+
+        userDao.delete(deleteUser);
+        var retrievedUsers = getUsersInRange((maxId - NUM_TEST_USERS + 1), maxId);
+
+        assertEquals("size of retrieved users not equal to number of test users", retrievedUsers.size(), users.size());
+
+        assertEquals("retrieved users don't match saved users", users, retrievedUsers);
+    }
+
+    @Test
+    public void testGetAll() throws SQLException {
+        UserDao userDao = new UserDaoImpl();
+
+        for(var u: users) {
+            userDao.save(u);
+        }
+
+        var maxId = getMaxId();
+
+        for (int i=0; i<users.size(); i++) {
+            int id = (maxId - users.size()) + i + 1;
+
+            users.get(i).setId(id);
+        }
+
+        var dbUsers = userDao.getAll();
+        dbUsers = dbUsers.subList(dbUsers.size() - users.size(), dbUsers.size());
+
+        assertEquals("size of retrieved users not equal to number of test users", dbUsers.size(), users.size());
+
+        assertEquals("retrieved users don't match saved users", users, dbUsers);
+    }
+
+    @Test
+    public void testFindAndUpdate() throws SQLException {
+        var user = users.get(0);
+
+        UserDao userDao = new UserDaoImpl();
+
+        userDao.save(user);
+
+        var maxId = getMaxId();
+
+        user.setId(maxId);
+
+        var retrievedUserOpt = userDao.findById(maxId);
+
+        assertTrue("no user retrieved", retrievedUserOpt.isPresent());
+
+        var retrievedUser = retrievedUserOpt.get();
+
+        assertEquals("retrieved user doesn't match saved user", user, retrievedUser);
+
+        user.setName("abcde");
+
+        userDao.update(user);
+
+        retrievedUserOpt = userDao.findById(maxId);
+
+        assertTrue("no updated user retrieved", retrievedUserOpt.isPresent());
+
+        retrievedUser = retrievedUserOpt.get();
+
+        assertEquals("retrieved user doesn't match updated user", user, retrievedUser);
+
+        System.out.println(retrievedUser);
+    }
+
+    @Test
     public void testSave() throws SQLException {
         User user = new User("Jupiter");
 
